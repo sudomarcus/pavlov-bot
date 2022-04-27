@@ -249,73 +249,23 @@ class Pavlov(commands.Cog):
         data, _ = await exec_server_command(ctx, server_name, "RefreshList")
         server_data, _ = await exec_server_command(ctx, server_name, "ServerInfo")
         players = data.get("PlayerList")
-        blue_score = server_data.get("ServerInfo").get("Team0Score")
-        red_score = server_data.get("ServerInfo").get("Team1Score")
-        game_round = server_data.get("ServerInfo").get("Round")
         game_mode = server_data.get("ServerInfo").get("GameMode")
-        map_label = server_data.get("ServerInfo").get("MapLabel")
-        map_alias = aliases.find_map_alias(map_label)
-        map_name = map_label
-        if map_alias is not None:
-            map_name = map_alias
 
         embed = discord.Embed(
-            title=f"{len(players)} player{'s' if len(players)!=1 else ''} on `{server_name}`\n"
+            title=f"{len(players)} player{'s' if len(players)!=1 else ''}:\n"
         )
-        if game_mode == "SND":
-            embed.description = f"Round {game_round} on map {map_name}\n\n"
-        else:
-            embed.description = f"Playing {game_mode.upper()} on map `{map_name}`\n\n"
         team_blue, team_red, kda_list, alive_list, scores, _ = await get_stats(ctx, server_name)
         if len(team_red) == 0:
             for player in players:
                 if player.get("UniqueId") == '' or player.get('Username') == '':
                     continue
-                dead = ""
-                if alive_list.get(player.get("UniqueId")):
-                    dead = ":skull:"
-                elif not alive_list.get(player.get("UniqueId")):
-                    dead = ":slight_smile:"
                 if player.get('UniqueId') == player.get('Username'):
                     steamprofile = ""
                 else:
                     steamprofile = f"http://steamcommunity.com/profiles/{player.get('UniqueId')}\n"
                 embed.description += (
-                    f"- {dead} **{player.get('Username')}** `<{player.get('UniqueId')}>` "
-                    f"**KDA**: {kda_list.get(player.get('UniqueId'))}\n"
+                    f"**[- {player.get('Username')}]({steamprofile}) {kda_list.get(player.get('UniqueId'))}**"
                 )
-        else:
-            score_name = "Score"
-            if game_mode.upper() == "PUSH":
-                score_name = "Tickets"
-
-            teams = ["blue", "red"]
-            for team in teams:
-                embed.description += f"**Team {team.capitalize()} {score_name}: "
-                if team == "blue":
-                    embed.description += f"{blue_score}**\n"
-                if team == "red":
-                    embed.description += f"{red_score}**\n"
-                team_name = f":{team}_circle:"
-                team_list = team_blue if team == "blue" else team_red
-                dead = ""
-                user_name = "N/A"
-                for player in team_list:
-                    if alive_list.get(player):
-                        dead = ":skull:"
-                    elif not alive_list.get(player):
-                        dead = ":slight_smile:"
-                    for p in players:
-                        if player == p.get("UniqueId"):
-                            user_name = p.get("Username")
-                    if player == user_name:
-                        steamprofile = ""
-                    else:
-                        steamprofile = f"http://steamcommunity.com/profiles/{player}\n"
-                    embed.description += (
-                        f"- {dead} {team_name} **{user_name}** `<{player}>` "
-                        f"**KDA**: {kda_list.get(player)}\n"
-                    )
 
         if hasattr(ctx, "batch_exec"):
             if ctx.batch_exec:

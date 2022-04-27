@@ -83,7 +83,7 @@ class Polling(commands.Cog):
             return new_state, ctx
         logging.info(f"New state for server is {new_state}")
         embed = discord.Embed(
-            title=f"`{server}` has {new_state} population! {player_count} players are on!"
+            title=f"`{server}` has {new_state} population with {player_count} players in-game:"
         )
         if poll_config.get("show_scoreboard"):
             players_command = self.bot.all_commands.get("players")

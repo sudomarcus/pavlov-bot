@@ -254,18 +254,17 @@ class Pavlov(commands.Cog):
         embed = discord.Embed(
             title=f"{len(players)} player{'s' if len(players)!=1 else ''}:\n"
         )
-        team_blue, team_red, kda_list, alive_list, scores, _ = await get_stats(ctx, server_name)
-        if len(team_red) == 0:
-            for player in players:
-                if player.get("UniqueId") == '' or player.get('Username') == '':
-                    continue
-                if player.get('UniqueId') == player.get('Username'):
-                    steamprofile = ""
-                else:
-                    steamprofile = f"http://steamcommunity.com/profiles/{player.get('UniqueId')}\n"
-                embed.description += (
-                    f"**[- {player.get('Username')}]({steamprofile}) {kda_list.get(player.get('UniqueId'))}**"
-                )
+        kda_list, _ = await get_stats(ctx, server_name)
+        for player in players:
+            if player.get("UniqueId") == '' or player.get('Username') == '':
+                continue
+            if player.get('UniqueId') == player.get('Username'):
+                steamprofile = ""
+            else:
+                steamprofile = f"http://steamcommunity.com/profiles/{player.get('UniqueId')}\n"
+            embed.description += (
+                f"**[- {player.get('Username')}]({steamprofile}) {kda_list.get(player.get('UniqueId'))}**"
+            )
 
         if hasattr(ctx, "batch_exec"):
             if ctx.batch_exec:

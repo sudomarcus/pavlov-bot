@@ -125,7 +125,6 @@ class Pavlov(commands.Cog):
     @commands.command()
     async def serverinfo(self, ctx, server_name: str = config.default_server):
         """`{prefix}serverinfo <server_name>` - *Provides details on server*
-
         **Example**: `{prefix}serverinfo rush`
         """
         data, _ = await exec_server_command(ctx, server_name, "ServerInfo")
@@ -164,7 +163,6 @@ class Pavlov(commands.Cog):
     @commands.command()
     async def banlist(self, ctx, server_name: str = config.default_server):
         """`{prefix}banlist <server_name>` - *Lists banned players on a server*
-
         **Example**: `{prefix}banlist rush`
         """
         data, _ = await exec_server_command(ctx, server_name, "Banlist")
@@ -182,7 +180,6 @@ class Pavlov(commands.Cog):
     @commands.command()
     async def checkban(self, ctx, player, server_name: str = config.default_server):
         """`{prefix}checkban <playerid> <server_name>` - *Lists banned players on a server*
-
         **Example**: `{prefix}checkban invicta push`
         """
         embed = discord.Embed(title=f"Looking for {player} on `{server_name}` banlist:")
@@ -202,7 +199,6 @@ class Pavlov(commands.Cog):
     @commands.command()
     async def itemlist(self, ctx, server_name: str = config.default_server):
         """`{prefix}itemlist <servername>` - *Lists available items on a server*
-
         **Example**: `{prefix}itemlist snd1`
         """
         data, _ = await exec_server_command(ctx, server_name, "ItemList")
@@ -220,7 +216,6 @@ class Pavlov(commands.Cog):
     @commands.command()  # Exceeds Helptext embed, maplist hidden for now
     async def maplist(self, ctx, server_name: str = config.default_server):
         """`{prefix}maplist <server_name>` - *Lists configured maps on a server*
-
         **Example**: `{prefix}maplist rush`
         """
         data, _ = await exec_server_command(ctx, server_name, "MapList")
@@ -284,7 +279,6 @@ class Pavlov(commands.Cog):
         __interaction: discord_components = None,
     ):
         """`{prefix}playerinfo <player_id> <server_name>` - *Player details*
-
         **Example**: `{prefix}playerinfo 89374583439127 rush`
         """
         if ctx.interaction_exec:
@@ -332,7 +326,6 @@ class Pavlov(commands.Cog):
     @commands.command()
     async def batch(self, ctx, *batch_commands):
         """`{prefix}batch "<command with arguments>" "<command with args>"`
-
         **Example**: `{prefix}batch "rotatemap rush" "serverinfo rush"`
         """
         embed = discord.Embed(title="batch execute")

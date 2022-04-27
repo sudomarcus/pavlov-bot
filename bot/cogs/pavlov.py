@@ -243,7 +243,6 @@ class Pavlov(commands.Cog):
         __interaction: discord_components = None,
     ):
         """`{prefix}players <server_name>` - *Provides a scoreboard with player info*
-
         **Example**: `{prefix}players rush`
         """
         data, _ = await exec_server_command(ctx, server_name, "RefreshList")
